@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Localização</title>
+
+    <!-- update the version number as needed -->
+    <script defer src="/__/firebase/7.7.0/firebase-app.js"></script>
+    <!-- include only the Firebase features as you need -->
+    <script defer src="/__/firebase/7.7.0/firebase-auth.js"></script>
+    <script defer src="/__/firebase/7.7.0/firebase-database.js"></script>
+    <script defer src="/__/firebase/7.7.0/firebase-messaging.js"></script>
+    <script defer src="/__/firebase/7.7.0/firebase-storage.js"></script>
+    <!-- initialize the SDK after all desired features are loaded -->
+    <script defer src="/__/firebase/init.js"></script>
+
+    <style media="screen">
+      body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
+      #map { height: 400px; }
+      html { height: 100%; margin: 0; padding: 0;}
+      @media (max-width: 600px) {
+        body { margin-top: 0; background: white; box-shadow: none; }
+        body { border-top: 16px solid #ffa100; }
+      }
+      #legendas { padding: 20px 40px; margin: 20px 30px; background-color: white; }
+      .center { text-align: center; }
+      .titulo { font-weight: 500; }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <div class="legendas">
+        <p>Fonte: Google Maps</p>
+        <h2 class="center titulo">Desafio Trainee Back-end Onsurance</h2>
+        <p id="msg" class="center">Seu veículo encontra-se próximo a marcação no mapa.</p>
+    </div>
+
+    <script>
+        var map;
+        function initMap(){
+            let lat = parseFloat(getUrlVars('y')), lon = parseFloat(getUrlVars('x'));
+            console.log("Latitude: " + lat + "\nLongitude: " + lon);
+            var coords = {lat: lat, lng: lon};
+            map = new google.maps.Map(
+                document.getElementById('map'), {zoom: 15, center: coords}
+            );
+            var marker = new google.maps.Marker({position: coords, map: map});
+        }
+
+        function getUrlVars(param) {
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            return urlParams.get(param);
+        }
+
+        document.addEventListener("DOMContentLoaded", function(e){
+            let nome = getUrlVars('nome');
+            let msg = document.getElementById('msg');
+            msg.innerHTML = nome + ', seu veículo encontra-se próximo da marcação.';
+        });
+
+    </script>
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=<CHAVEGOOGLE>&callback=initMap">
+    </script>
+  </body>
+</html>
